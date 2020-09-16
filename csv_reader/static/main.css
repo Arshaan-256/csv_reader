@@ -1,0 +1,70 @@
+body {
+    margin-top: 5rem;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+.nav-item {
+    font-size: 1.2rem;
+}
+.active {
+    color: white;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+label {
+    font-size: 1.5rem;
+}
+
+div.validation-error {
+    color: red;
+}
+
+table, td {
+    border: 2px solid black;
+    padding: 1rem;
+}
+table {
+    width: 100%
+}
+.table-head-container {
+    align-items: center;
+}
+th {
+    border: 2px solid black;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+.table-head-container {
+    padding: 15px;    
+}
+.table-label {
+    padding-right: 5px;
+}
+.table-arrow {
+    padding-left: 5px;
+}
+.up-arrow {}
+td {
+    font-size: 1.2rem;
+}
+td.serial-no {
+    text-align: center;
+}
+.data-row-1 {
+    background-color: #f2f2f2;
+}
+.data-row-2 {
+    background-color: white;
+}
+
+.page-bar {
+
+}
