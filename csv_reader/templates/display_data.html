@@ -1,26 +1,106 @@
 {% extends "base.html" %}
 {% block content %}
+    <!-- HEADER and PAGE BAR -->
     <div class="container">
         <div class="row">
+            <!-- HEADER -->
             <div class="col-6">
                 <h1 class="mt-2 mb-3">Display Data</h1>
             </div>
+            <!-- PAGE BAR -->
             <div class="col-6 mt-2 text-right" id="page-bar">
-                {% for page_num in data.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-                    {% if page_num %}
-                        {% if data.page == page_num %}
-                            <a class="btn btn-info" href="{{ url_for('main.displayData', page=page_num) }}">{{ page_num }}</a>
+            {% for page_num in data.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    <!-- data.page is the current page, returned by paginate -->
+                    <!-- data.iter returns a list of pages, 
+                        with given specifications wrt data.page -->                     
+                    <!-- page_num is the loop variable -->
+                    {% if data.page == page_num %}
+                        {% if context.order_by == None %}
+                            {% if context.sort_by == None %}
+                                <a class="btn btn-info" 
+                                href="{{ url_for('main.displayData', 
+                                page_num=page_num) }}">
+                                    {{ page_num }}
+                                </a>
+                            <!-- context.sort_by == 'asc'||'desc' -->
+                            {% else %}
+                                <a class="btn btn-info" 
+                                href="{{ url_for('main.displayData', 
+                                page_num=page_num, 
+                                sort_by=context.sort_by) }}">
+                                    {{ page_num }}
+                                </a>
+                            {% endif %}
+                        <!-- context.order_by != None -->
                         {% else %}
-                            <a class="btn btn-outline-info mb-2" href="{{ url_for('main.displayData', page=page_num) }}">{{ page_num }}</a>
+                            {% if context.sort_by == None %}
+                                <a class="btn btn-info" 
+                                href="{{ url_for('main.displayData', 
+                                page_num=page_num,
+                                order_by=context.order_by) }}">
+                                    {{ page_num }}
+                                </a>
+                            <!-- context.sort_by == 'asc'||'desc' -->
+                            {% else %}
+                                <a class="btn btn-info" 
+                                href="{{ url_for('main.displayData', 
+                                page_num=page_num,
+                                order_by=context.order_by,  
+                                sort_by=context.sort_by) }}">
+                                    {{ page_num }}
+                                </a>
+                            {% endif %}
                         {% endif %}
+                    <!-- data.page != page_num -->
                     {% else %}
-                        ...
+                        {% if context.order_by == None %}
+                            {% if context.sort_by == None %}
+                                <a class="btn btn-outline-info mb-2" 
+                                href="{{ url_for('main.displayData', 
+                                page_num=page_num) }}">
+                                    {{ page_num }}
+                                </a>
+                            <!-- context.sort_by == 'asc'||'desc' -->
+                            {% else %}
+                                <a class="btn btn-outline-info mb-2" 
+                                href="{{ url_for('main.displayData', 
+                                page_num=page_num, 
+                                sort_by=context.sort_by) }}">
+                                    {{ page_num }}
+                                </a>
+                            {% endif %}
+                        <!-- context.order_by != None -->
+                        {% else %}
+                            {% if context.sort_by == None %}
+                                <a class="btn btn-outline-info mb-2" 
+                                href="{{ url_for('main.displayData', 
+                                page_num=page_num,
+                                order_by=context.order_by) }}">
+                                    {{ page_num }}
+                                </a>
+                            <!-- context.sort_by == 'asc'||'desc' -->
+                            {% else %}
+                                <a class="btn btn-outline-info mb-2" 
+                                href="{{ url_for('main.displayData', 
+                                page_num=page_num,
+                                order_by=context.order_by,  
+                                sort_by=context.sort_by) }}">
+                                    {{ page_num }}
+                                </a>
+                            {% endif %}
+                        {% endif %}
                     {% endif %}
-                {% endfor %}
+                <!-- page_num not in data.iter(*args) -->
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
             </div>
         </div>
     </div>
 
+    <!-- DATA TABLE -->
     <table class="mb-5">
         <tr>
             <th>
@@ -29,8 +109,24 @@
                         S.No.
                     </div>
                     <div class="d-flex flex-column right-text table-arrow">
-                        <div class="up-arrow"><a href="#">&#9650</a></div>
-                        <div class="down-arrow"><a href="#">&#9660</a></div>
+                        <div>
+                            <a class="up-arrow"
+                            href="{{ url_for('main.displayData', 
+                            page_num=context.page_num, 
+                            order_by='id',
+                            sort_by='asc') }}">
+                            <i class="fas fa-caret-up"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <a class="down-arrow"
+                            href="{{ url_for('main.displayData', 
+                            page_num=context.page_num, 
+                            order_by='id',
+                            sort_by='desc') }}">
+                            <i class="fas fa-caret-down"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </th>
@@ -40,8 +136,24 @@
                         Name
                     </div>
                     <div class="d-flex flex-column right-text table-arrow">
-                        <div class="up-arrow"><a href="#">&#9650</a></div>
-                        <div class="down-arrow"><a href="#">&#9660</a></div>
+                        <div>
+                            <a class="up-arrow"
+                            href="{{ url_for('main.displayData', 
+                            page_num=context.page_num, 
+                            order_by='col1',
+                            sort_by='asc') }}">
+                            <i class="fas fa-caret-up"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <a class="down-arrow"
+                            href="{{ url_for('main.displayData', 
+                            page_num=context.page_num, 
+                            order_by='col1',
+                            sort_by='desc') }}">
+                            <i class="fas fa-caret-down"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>    
             </th>
@@ -51,8 +163,24 @@
                         Email
                     </div>
                     <div class="d-flex flex-column right-text table-arrow">
-                        <div class="up-arrow"><a href="#">&#9650</a></div>
-                        <div class="down-arrow"><a href="#">&#9660</a></div>
+                        <div>
+                            <a class="up-arrow"
+                            href="{{ url_for('main.displayData', 
+                            page_num=context.page_num, 
+                            order_by='col2',
+                            sort_by='asc') }}">
+                            <i class="fas fa-caret-up"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <a class="down-arrow"
+                            href="{{ url_for('main.displayData', 
+                            page_num=context.page_num, 
+                            order_by='col2',
+                            sort_by='desc') }}">
+                            <i class="fas fa-caret-down"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </th>
@@ -62,8 +190,24 @@
                         Zip
                     </div>
                     <div class="d-flex flex-column right-text table-arrow">
-                        <div class="up-arrow"><a href="#">&#9650</a></div>
-                        <div class="down-arrow"><a href="#">&#9660</a></div>
+                        <div>
+                            <a class="up-arrow"
+                            href="{{ url_for('main.displayData', 
+                            page_num=context.page_num, 
+                            order_by='col3',
+                            sort_by='asc') }}">
+                            <i class="fas fa-caret-up"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <a class="down-arrow"
+                            href="{{ url_for('main.displayData', 
+                            page_num=context.page_num, 
+                            order_by='col3',
+                            sort_by='desc') }}">
+                            <i class="fas fa-caret-down"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </th>
@@ -71,14 +215,14 @@
         {% for row in data.items %}
             {% if loop.index%2 != 0 %}
                 <tr class="data-row-1">
-                    <td class="serial-no">{{ loop.index }}</td>
+                    <td class="serial-no">{{ row.id }}</td>
                     <td>{{ row.col1 }}</td>
                     <td>{{ row.col2 }}</td>
                     <td>{{ row.col3 }}</td>
                 </tr>
             {% else %}
                 <tr class="data-row-2">
-                    <td class="serial-no">{{ loop.index }}</td>
+                    <td class="serial-no">{{ row.id }}</td>
                     <td>{{ row.col1 }}</td>
                     <td>{{ row.col2 }}</td>
                     <td>{{ row.col3 }}</td>
