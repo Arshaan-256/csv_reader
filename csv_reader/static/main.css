@@ -24,6 +24,13 @@ div.validation-error {
     color: red;
 }
 
+.page-bar {
+    text-align: right;
+}
+.go-to-page-bar {
+    width: 25%;
+}
+
 table, td {
     border: 2px solid black;
     padding: 1rem;
@@ -74,8 +81,4 @@ td.serial-no {
 }
 .data-row-2 {
     background-color: white;
-}
-
-.page-bar {
-
 }

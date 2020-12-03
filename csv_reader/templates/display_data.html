@@ -2,103 +2,125 @@
 {% block content %}
     <!-- HEADER and PAGE BAR -->
     <div class="container">
-        <div class="row">
+        <div class="row mb-2">
             <!-- HEADER -->
             <div class="col-6">
                 <h1 class="mt-2 mb-3">Display Data</h1>
             </div>
-            <!-- PAGE BAR -->
-            <div class="col-6 mt-2 text-right" id="page-bar">
-            {% for page_num in data.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-                {% if page_num %}
-                    <!-- data.page is the current page, returned by paginate -->
-                    <!-- data.iter returns a list of pages, 
-                        with given specifications wrt data.page -->                     
-                    <!-- page_num is the loop variable -->
-                    {% if data.page == page_num %}
-                        {% if context.order_by == None %}
-                            {% if context.sort_by == None %}
-                                <a class="btn btn-info" 
-                                href="{{ url_for('main.displayData', 
-                                page_num=page_num) }}">
-                                    {{ page_num }}
-                                </a>
-                            <!-- context.sort_by == 'asc'||'desc' -->
+            <!-- CLOSE HEADER -->
+            <div class="col-6">
+                <div class="d-flex flex-column">
+                    <!-- PAGE BAR -->
+                    <div class="page-bar">
+                    {% for page_num in data.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                        {% if page_num %}
+                            <!-- data.page is the current page, returned by paginate -->
+                            <!-- data.iter returns a list of pages, 
+                                with given specifications wrt data.page -->                     
+                            <!-- page_num is the loop variable -->
+                            {% if data.page == page_num %}
+                                {% if context.order_by == None %}
+                                    {% if context.sort_by == None %}
+                                        <a class="btn btn-info" 
+                                        href="{{ url_for('main.displayData', 
+                                        page_num=page_num) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    <!-- context.sort_by == 'asc'||'desc' -->
+                                    {% else %}
+                                        <a class="btn btn-info" 
+                                        href="{{ url_for('main.displayData', 
+                                        page_num=page_num, 
+                                        sort_by=context.sort_by) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    {% endif %}
+                                <!-- context.order_by != None -->
+                                {% else %}
+                                    {% if context.sort_by == None %}
+                                        <a class="btn btn-info" 
+                                        href="{{ url_for('main.displayData', 
+                                        page_num=page_num,
+                                        order_by=context.order_by) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    <!-- context.sort_by == 'asc'||'desc' -->
+                                    {% else %}
+                                        <a class="btn btn-info" 
+                                        href="{{ url_for('main.displayData', 
+                                        page_num=page_num,
+                                        order_by=context.order_by,  
+                                        sort_by=context.sort_by) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            <!-- data.page != page_num -->
                             {% else %}
-                                <a class="btn btn-info" 
-                                href="{{ url_for('main.displayData', 
-                                page_num=page_num, 
-                                sort_by=context.sort_by) }}">
-                                    {{ page_num }}
-                                </a>
+                                {% if context.order_by == None %}
+                                    {% if context.sort_by == None %}
+                                        <a class="btn btn-outline-info mb-2" 
+                                        href="{{ url_for('main.displayData', 
+                                        page_num=page_num) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    <!-- context.sort_by == 'asc'||'desc' -->
+                                    {% else %}
+                                        <a class="btn btn-outline-info mb-2" 
+                                        href="{{ url_for('main.displayData', 
+                                        page_num=page_num, 
+                                        sort_by=context.sort_by) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    {% endif %}
+                                <!-- context.order_by != None -->
+                                {% else %}
+                                    {% if context.sort_by == None %}
+                                        <a class="btn btn-outline-info mb-2" 
+                                        href="{{ url_for('main.displayData', 
+                                        page_num=page_num,
+                                        order_by=context.order_by) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    <!-- context.sort_by == 'asc'||'desc' -->
+                                    {% else %}
+                                        <a class="btn btn-outline-info mb-2" 
+                                        href="{{ url_for('main.displayData', 
+                                        page_num=page_num,
+                                        order_by=context.order_by,  
+                                        sort_by=context.sort_by) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
                             {% endif %}
-                        <!-- context.order_by != None -->
+                        <!-- page_num not in data.iter(*args) -->
                         {% else %}
-                            {% if context.sort_by == None %}
-                                <a class="btn btn-info" 
-                                href="{{ url_for('main.displayData', 
-                                page_num=page_num,
-                                order_by=context.order_by) }}">
-                                    {{ page_num }}
-                                </a>
-                            <!-- context.sort_by == 'asc'||'desc' -->
-                            {% else %}
-                                <a class="btn btn-info" 
-                                href="{{ url_for('main.displayData', 
-                                page_num=page_num,
-                                order_by=context.order_by,  
-                                sort_by=context.sort_by) }}">
-                                    {{ page_num }}
-                                </a>
-                            {% endif %}
+                            ...
                         {% endif %}
-                    <!-- data.page != page_num -->
-                    {% else %}
-                        {% if context.order_by == None %}
-                            {% if context.sort_by == None %}
-                                <a class="btn btn-outline-info mb-2" 
-                                href="{{ url_for('main.displayData', 
-                                page_num=page_num) }}">
-                                    {{ page_num }}
-                                </a>
-                            <!-- context.sort_by == 'asc'||'desc' -->
-                            {% else %}
-                                <a class="btn btn-outline-info mb-2" 
-                                href="{{ url_for('main.displayData', 
-                                page_num=page_num, 
-                                sort_by=context.sort_by) }}">
-                                    {{ page_num }}
-                                </a>
-                            {% endif %}
-                        <!-- context.order_by != None -->
-                        {% else %}
-                            {% if context.sort_by == None %}
-                                <a class="btn btn-outline-info mb-2" 
-                                href="{{ url_for('main.displayData', 
-                                page_num=page_num,
-                                order_by=context.order_by) }}">
-                                    {{ page_num }}
-                                </a>
-                            <!-- context.sort_by == 'asc'||'desc' -->
-                            {% else %}
-                                <a class="btn btn-outline-info mb-2" 
-                                href="{{ url_for('main.displayData', 
-                                page_num=page_num,
-                                order_by=context.order_by,  
-                                sort_by=context.sort_by) }}">
-                                    {{ page_num }}
-                                </a>
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
-                <!-- page_num not in data.iter(*args) -->
-                {% else %}
-                    ...
-                {% endif %}
-            {% endfor %}
+                    {% endfor %}
+                    </div>
+                    <!-- CLOSE PAGE BAR -->
+                </div>
+                <div class="go-to-page-searchbar">
+                    <form method="post">
+                        {{ form.hidden_tag() }}
+                            <div class="form-group">
+                                <div class="d-flex flex-row-reverse go-to-page">
+                                    <div class="d-flex ml-2 flex-column">
+                                        {{ form.go(class="btn btn-outline-success") }}
+                                    </div>
+                                    <div class="d-flex flex-column go-to-page-bar">
+                                        {{ form.page(class="form-control", placeholder="Go to page...") }}
+                                    </div>
+                                </div>
+                            </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+    <!-- CLOSE HEADER and PAGE BAR -->
 
     <!-- DATA TABLE -->
     <table class="mb-5">
@@ -230,7 +252,8 @@
             {% endif %}
         {% endfor %}
     </table>
-{% endblock %}
+    <!-- CLOSE DATA TABLE -->
+{% endblock content %}
 
 {% block js_script %}
     <script type="text/javascript">
@@ -238,3 +261,4 @@
     </script>
     <script src="{{ url_for('static', filename='displayData.js') }}"></script>
 {% endblock js_script %}
+
